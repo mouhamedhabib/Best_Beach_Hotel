@@ -198,8 +198,7 @@
           <div class="col-xl-8 col-lg-7">
             <div class="hero__content" data-aos="fade-right" data-aos-duration="1000">
               <h1>Luxury Experience For Best Beach Hotel</h1>
-              <p>The Best Beach Hotel Sousse ex Targui is a three-star hotel. Enjoys a prime location in Chott Myriem, on the seafront.It is perfectly located between Sousse and Hergla.
-              </p>
+              <p>The Best Beach Hotel Sousse ex Targui is a three-star hotel. Enjoys a prime location in Chott Myriem, on the seafront. It is perfectly located between Sousse and Hergla.</p>
               <a href="#" class="custom-btn"><span>Explore Room</span></a>
             </div>
           </div>
@@ -229,6 +228,37 @@
                         </div>
                       </div>
                       <div class="col-12">
+                        <div class="booking__form-inputgroup">
+                          <select id="children" class="nice-selct wide form-select" aria-label="Default select example">
+                            <option selected>Children</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="booking__form-inputgroup">
+                          <select id="infant" class="nice-selct wide form-select" aria-label="Default select example">
+                            <option selected>Infant under 2 years free</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="booking__form-inputgroup">
+                          <select id="room" class="nice-selct wide form-select" aria-label="Default select example">
+                            <option selected>Room</option>
+                            <option value="1">01</option>
+                            <option value="2">02</option>
+                            <option value="3">03</option>
+                            <option value="4">04</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12">
                         <div class="booking__form-btn">
                           <button type="button" class="custom-btn custom-btn--fluid" onclick="sendBookingEmail()">
                             <span>Book Now</span>
@@ -241,28 +271,39 @@
               </div>
             </div>
           </div>
-          
-          <script>
-          function sendBookingEmail() {
-            var checkIn = document.getElementById('checkIn').value;
-            var checkOut = document.getElementById('checkOut').value;
-            var phoneNumber = document.getElementById('phoneNumber').value;
-          
-            var emailBody = encodeURIComponent(
-              `Dear Hotel Best Beach,\n\n` +
-              `I would like to book a room.\n\n` +
-              `Check-In Date: ${checkIn}\n` +
-              `Check-Out Date: ${checkOut}\n` +
-              `Phone Number: ${phoneNumber}\n\n` +
-              `Thank you.\n[Your Name]`
-            );
-          
-            var mailtoLink = `mailto:reservation@hotelbestbeach.com?subject=Room%20Reservation&body=${emailBody}`;
-          
-            window.location.href = mailtoLink;
-          }
-          </script>
-          
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script>
+function sendBookingEmail() {
+  // جمع البيانات من الحقول
+  var checkIn = encodeURIComponent(document.getElementById('checkIn').value);
+  var checkOut = encodeURIComponent(document.getElementById('checkOut').value);
+  var phoneNumber = encodeURIComponent(document.getElementById('phoneNumber').value);
+  var children = encodeURIComponent(document.getElementById('children').value);
+  var infant = encodeURIComponent(document.getElementById('infant').value);
+  var room = encodeURIComponent(document.getElementById('room').value);
+
+  // تأكد من تحويل النص إلى صيغة URI
+  var emailBody = `Dear Hotel Best Beach,%0D%0A%0D%0A` +
+                  `I would like to book a room.%0D%0A%0D%0A` +
+                  `Check-In Date: ${checkIn}%0D%0A` +
+                  `Check-Out Date: ${checkOut}%0D%0A` +
+                  `Phone Number: ${phoneNumber}%0D%0A` +
+                  `Number of Children: ${children}%0D%0A` +
+                  `Number of Infants (under 2 years): ${infant}%0D%0A` +
+                  `Number of Rooms: ${room}%0D%0A%0D%0A` +
+                  `Thank you.%0D%0A[Your Name]`;
+
+  var mailtoLink = `mailto:reservation@hotelbestbeach.com?subject=Room%20Reservation&body=${emailBody}`;
+
+  window.location.href = mailtoLink;
+}
+</script>
+
+
   <!-- ========== Hero Section Ends Here========== -->
 
 
