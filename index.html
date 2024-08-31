@@ -224,25 +224,50 @@
                       </div>
                       <div class="col-12">
                         <div class="booking__form-inputgroup">
+                          <select id="adult" class="nice-selct wide form-select" aria-label="Number of Adults">
+                            <option selected>Adult</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="booking__form-inputgroup">
                           <input type="number" id="phoneNumber" class="form-control" placeholder="Enter your number">
                         </div>
                       </div>
                       <div class="col-12">
                         <div class="booking__form-inputgroup">
-                          <select id="children" class="nice-selct wide form-select" aria-label="Default select example">
+                          <select id="children" class="nice-selct wide form-select" aria-label="Number of Children">
                             <option selected>Children</option>
-                            <option value="0">none</option>
+                            <option value="0">None</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
                             <option value="3">Three</option>
                           </select>
                         </div>
                       </div>
+                      <div id="childrenAgesContainer" class="col-12">
+                        <!-- Children ages fields will be appended here -->
+                        <div id="child1" class="booking__form-inputgroup d-none">
+                          <label for="childAge1">Age of Child 1</label>
+                          <input type="number" id="childAge1" class="form-control" placeholder="Enter age of Child 1">
+                        </div>
+                        <div id="child2" class="booking__form-inputgroup d-none">
+                          <label for="childAge2">Age of Child 2</label>
+                          <input type="number" id="childAge2" class="form-control" placeholder="Enter age of Child 2">
+                        </div>
+                        <div id="child3" class="booking__form-inputgroup d-none">
+                          <label for="childAge3">Age of Child 3</label>
+                          <input type="number" id="childAge3" class="form-control" placeholder="Enter age of Child 3">
+                        </div>
+                      </div>
                       <div class="col-12">
                         <div class="booking__form-inputgroup">
-                          <select id="infant" class="nice-selct wide form-select" aria-label="Default select example">
+                          <select id="infant" class="nice-selct wide form-select" aria-label="Number of Infants (under 2 years)">
                             <option selected>Infant under 2 years free</option>
-                            <option value="0">none</option>
+                            <option value="0">None</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
                             <option value="3">Three</option>
@@ -251,7 +276,7 @@
                       </div>
                       <div class="col-12">
                         <div class="booking__form-inputgroup">
-                          <select id="room" class="nice-selct wide form-select" aria-label="Default select example">
+                          <select id="room" class="nice-selct wide form-select" aria-label="Number of Rooms">
                             <option selected>Room</option>
                             <option value="1">01</option>
                             <option value="2">02</option>
@@ -277,31 +302,68 @@
       </div>
     </div>
   </section>
+<style>
+  
+</style>  
+  
+  
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('children').addEventListener('change', function() {
+    var numChildren = parseInt(this.value);
+    var childrenAgesContainer = document.getElementById('childrenAges');
+    childrenAgesContainer.innerHTML = ''; // Clear previous inputs
 
-<script>
-function sendBookingEmail() {
-  var checkIn = encodeURIComponent(document.getElementById('checkIn').value);
-  var checkOut = encodeURIComponent(document.getElementById('checkOut').value);
-  var phoneNumber = encodeURIComponent(document.getElementById('phoneNumber').value);
-  var children = encodeURIComponent(document.getElementById('children').value);
-  var infant = encodeURIComponent(document.getElementById('infant').value);
-  var room = encodeURIComponent(document.getElementById('room').value);
+    if (numChildren > 0) {
+      for (var i = 1; i <= numChildren; i++) {
+        var div = document.createElement('div');
+        div.className = 'booking__form-inputgroup';
+        div.innerHTML = `
+          <label for="childAge${i}">Age of Child ${i}</label>
+          <input type="number" id="childAge${i}" class="form-control" placeholder="Enter age of Child ${i}">
+        `;
+        childrenAgesContainer.appendChild(div);
+      }
+    }
+  });
+  
+  window.sendBookingEmail = function() {
+    var checkIn = encodeURIComponent(document.getElementById('checkIn').value);
+    var checkOut = encodeURIComponent(document.getElementById('checkOut').value);
+    var adult = encodeURIComponent(document.getElementById('adult').value);
+    var phoneNumber = encodeURIComponent(document.getElementById('phoneNumber').value);
+    var children = encodeURIComponent(document.getElementById('children').value);
+    var infant = encodeURIComponent(document.getElementById('infant').value);
+    var room = encodeURIComponent(document.getElementById('room').value);
 
-  var emailBody = `Dear Hotel Best Beach,%0D%0A%0D%0A` +
-                  `I would like to book a room.%0D%0A%0D%0A` +
-                  `Check-In Date: ${checkIn}%0D%0A` +
-                  `Check-Out Date: ${checkOut}%0D%0A` +
-                  `Phone Number: ${phoneNumber}%0D%0A` +
-                  `Number of Children: ${children}%0D%0A` +
-                  `Number of Infants (under 2 years): ${infant}%0D%0A` +
-                  `Number of Rooms: ${room}%0D%0A%0D%0A` +
-                  `Thank you.%0D%0A[Your Name]`;
+    var childAges = [];
+    for (var i = 1; i <= children; i++) {
+      var age = document.getElementById('childAge' + i)?.value;
+      if (age) {
+        childAges.push('Child ' + i + ' Age: ' + age);
+      }
+    }
 
-  var mailtoLink = `mailto:reservation@hotelbestbeach.com?subject=Room%20Reservation&body=${emailBody}`;
+    var emailBody = `Dear Hotel Best Beach,%0D%0A%0D%0A` +
+                    `I would like to book a room.%0D%0A%0D%0A` +
+                    `Check-In Date: ${checkIn}%0D%0A` +
+                    `Check-Out Date: ${checkOut}%0D%0A` +
+                    `Number of Adults: ${adult}%0D%0A` +
+                    `Phone Number: ${phoneNumber}%0D%0A` +
+                    `Number of Children: ${children}%0D%0A` +
+                    `Number of Infants (under 2 years): ${infant}%0D%0A` +
+                    `Number of Rooms: ${room}%0D%0A` +
+                    `${childAges.join('%0D%0A')}` +
+                    `%0D%0AThank you.%0D%0A[Your Name]`;
 
-  window.location.href = mailtoLink;
-}
-</script>
+    var mailtoLink = `mailto:reservation@hotelbestbeach.com?subject=Room%20Reservation&body=${emailBody}`;
+
+    window.location.href = mailtoLink;
+  }
+});
+
+  </script>
+  
 
 
   <!-- ========== Hero Section Ends Here========== -->
