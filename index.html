@@ -227,7 +227,7 @@
                         <div class="booking__form-inputgroup">
                           <!-- <label for="test1" class="form-label">Room</label>  -->
                           <!-- <label for="exampleInputEmail1">Email address</label> -->
-                          <input type="number" class="form-control" id="exampleInputnumber" aria-describedby="number" placeholder="Enter your number">
+                          <input type="number" class="form-control" id="exampleInput" aria-describedby="number" placeholder="Enter your number">
                           <!-- <select class="nice-selct wide form-select" aria-label="Default select example">
                             <option selected>Adult</option>
                             <option value="1">01</option>
@@ -279,6 +279,24 @@
       </div>
     </div>
   </section>
+  <script>
+    function sendBookingEmail() {
+      var checkIn = document.getElementById('checkIn').value;
+      var checkOut = document.getElementById('checkOut').value;
+      var phoneNumber = document.getElementById('phoneNumber').value;
+    
+      var emailBody = `Dear Hotel Best Beach,%0D%0A%0D%0A` +
+                      `I would like to book a room.%0D%0A%0D%0A` +
+                      `Check-In Date: ${checkIn}%0D%0A` +
+                      `Check-Out Date: ${checkOut}%0D%0A` +
+                      `Phone Number: ${phoneNumber}%0D%0A%0D%0A` +
+                      `Thank you.%0D%0A[Your Name]`;
+    
+      var mailtoLink = `mailto:reservation@hotelbestbeach.com?subject=Room%20Reservation&body=${emailBody}`;
+    
+      window.location.href = mailtoLink;
+    }
+    </script>
   <!-- ========== Hero Section Ends Here========== -->
 
 
